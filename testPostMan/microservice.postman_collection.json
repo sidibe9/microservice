@@ -1,0 +1,45 @@
+{
+	"variables": [],
+	"info": {
+		"name": "microservice",
+		"_postman_id": "7d3024ff-44d7-f504-2f7d-7d2cb21a6c7c",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:9090/produits/",
+			"request": {
+				"url": "http://localhost:9090/produits/",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9090/produits",
+			"request": {
+				"url": "http://localhost:9090/produits",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 3,\n    \"nom\": \"Robo\",\n    \"prix\": 10500\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

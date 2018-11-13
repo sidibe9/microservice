@@ -1,6 +1,8 @@
 package com.microservice.controller;
 
 import com.microservice.dao.ProductDao;
+import com.microservice.exceptions.ProduitGratuitException;
+import com.microservice.exceptions.ProduitIntrouvableException;
 import com.microservice.model.Product;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,11 +36,15 @@ public class ProductControlleur {
     @ApiOperation(value = "Récupère un produit grâce à son ID à condition que celui-ci soit en stock!")
     @GetMapping(value = "produits/{id}")
     public Product afficherUnProduit(@PathVariable int id){
-     return   productDao.findById(id);
+        Product produit = productDao.findById(id);
+        if(produit==null) throw new ProduitIntrouvableException("Le produit avec l'id " + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
+        return produit;
     }
     @ApiOperation(value = "ajoute un nouveau produit dans la base")
     @PostMapping(value = "produits")
     public ResponseEntity<Void> ajouterProduit(@RequestBody Product product){
+        if(product.getPrix()<=0) throw  new ProduitGratuitException("le prix est doit être superieur à O");
+
        Product product1= productDao.save(product);
        if(product1==null) return ResponseEntity.noContent().build();
         URI location= ServletUriComponentsBuilder.fromCurrentRequest()
@@ -63,5 +70,18 @@ public class ProductControlleur {
   productDao.save(product);
     }
 
+    @GetMapping(value = "produitsParNom")
+ public List<Product> ProduitIntrouvableException(){
+       return productDao.trierProduitsParOrdre();
+ }
+
+    @GetMapping(value = "AdminProduits")
+    public List calculeMargeProduit(){
+
+        List<Product> products= productDao.findAll();
+        List res=new ArrayList();
+        products.forEach(product -> res.add(product +":"+ (product.getPrix()-product.getPrixAchat())));
+        return res;
+    }
 
 }
