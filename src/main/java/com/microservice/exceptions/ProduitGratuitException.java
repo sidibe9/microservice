@@ -11,4 +11,5 @@ public class ProduitGratuitException extends RuntimeException {
     public ProduitGratuitException(String message) {
         super(message);
     }
+
 }

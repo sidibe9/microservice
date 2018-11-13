@@ -77,7 +77,6 @@ public class ProductControlleur {
 
     @GetMapping(value = "AdminProduits")
     public List calculeMargeProduit(){
-
         List<Product> products= productDao.findAll();
         List res=new ArrayList();
         products.forEach(product -> res.add(product +":"+ (product.getPrix()-product.getPrixAchat())));
